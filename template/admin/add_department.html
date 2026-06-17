@@ -1,0 +1,64 @@
+{% include "navbar.html" %}
+
+
+<div class="card">
+    <div class="card-body">
+        <div class="container">
+            <div class="row">
+                <div class="d-flex justify-content-sm-between mb-5">
+                    <h3 class="page-title">
+                        Add Department
+                    </h3>
+                    <a href="/department_list" class="btn btn-danger btn-sm">Department List</a>
+                </div>
+                <div class="col-md-12">
+                    <form class="forms-sample" action="{% url 'save_department' %}" method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="dpnmae">Department Name</label>
+                                    <input type="text" class="form-control" id="dpnmae" name="department_name"
+                                        placeholder="Department Name" required>
+                                </div>
+                            </div>
+
+                            <div class="col-md-8">
+
+                                <div class="form-group">
+                                    <label for="dppass">Description</label>
+                                    <textarea class="form-control" name="description"
+                                        placeholder="Description..."></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="dpcode">Department Code</label>
+                                    <input type="text" class="form-control" id="dpcode" name="department_code"
+                                        placeholder="Department Code" required>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="dpcode">Status</label>
+                                    <select name="status" id="" class="form-control p-3" required>
+                                        <option value="" selected>Choose Option</option>
+                                        <option value="Active">Active</option>
+                                        <option value="Inactive">Inactive</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <br>
+                                <button type="submit" class="btn btn-gradient-primary me-2 mt-1">Submit</button>
+                            </div>
+                        </div>
+
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% include "footer.html" %}
