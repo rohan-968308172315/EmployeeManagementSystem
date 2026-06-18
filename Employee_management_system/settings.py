@@ -90,27 +90,27 @@ WSGI_APPLICATION = 'Employee_management_system.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'employee_management_system',
-#         'USER': 'root',
-#         'PASSWORD':'',
-#         'HOST':'localhost',
-#         'PORT':'3306'
-#     }
-# }
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'employee_management_system',
-        'USER': 'django_user',
-        'PASSWORD':'StrongPassword123',
+        'USER': 'root',
+        'PASSWORD':'',
         'HOST':'localhost',
         'PORT':'3306'
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'employee_management_system',
+#         'USER': 'django_user',
+#         'PASSWORD':'StrongPassword123',
+#         'HOST':'localhost',
+#         'PORT':'3306'
+#     }
+# }
 
 AUTH_USER_MODEL = 'accounts.User'
 
@@ -154,3 +154,6 @@ STATICFILES_DIRS = [
 ]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'

@@ -1,0 +1,133 @@
+{% include "navbar.html" %}
+
+
+<div class="card">
+    <div class="card-body">
+        <div class="container">
+            <div class="row">
+                <div class="d-flex justify-content-sm-between mb-5">
+                    <h3 class="page-title">
+                        Edit Manager
+                    </h3>
+                </div>
+                <div class="col-md-12">
+                    <form class="forms-sample" action="{% url 'update_manager' editmanager.id %}" method="post"
+                        enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-4">
+                                <input type="hidden" name="id" value="{{editmanager.id}}" id="">
+                                <div class="form-group">
+                                    <label for="fname">First Name</label>
+                                    <input type="text" class="form-control" id="fname" name="first_name"
+                                        value="{{editmanager.first_name}}" placeholder="Enter First Name" required>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="fname">Last Name</label>
+                                    <input type="text" class="form-control" id="fname" name="last_name"
+                                        value="{{editmanager.last_name}}" placeholder="Enter Last Name" required>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="fname">UserName</label>
+                                    <input type="text" class="form-control" id="fname" name="username"
+                                        value="{{editmanager.username}}" placeholder="Enter UserName" required>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="fname">Email </label>
+                                    <input type="email" class="form-control" id="fname" name="email"
+                                        value="{{editmanager.email}}" placeholder="Enter Email" required>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="fname">Mobile Number </label>
+                                    <input type="text" class="form-control" name="mobile" value="{{editmanager.mobile}}"
+                                        maxlength="10" pattern="[0-9]{10}" placeholder="Enter Mobile Number" required>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="fname">Password </label>
+                                    <input type="text" class="form-control" id="fname" name="password"
+                                        value="{{editmanager.password}}" placeholder="Enter Password" required>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="fname">Select Department </label>
+                                    <select name="department" class="form-control p-3 text-dark" required>
+                                        <option value="" >Choose Department</option>
+                                        {% for dep in department %}
+                                        <option value="{{dep.id}}" {% if editmanager.department_id == dep.id %} selected {% endif %}>{{dep.department_name}} </option>
+                                        {% endfor %}
+                                    </select>
+                                    <input type="hidden" name="role" value="manager">
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="fname">Salary </label>
+                                    <input type="number" class="form-control" id="fname" name="salary"
+                                        placeholder="Enter salary" value="{{editmanager.salary}}" required>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="fname">Joining Date </label>
+                                    <input type="datetime-local" class="form-control" name="date_joined"
+                                        value="{{ editmanager.date_joined|date:'Y-m-d\\TH:i' }}" required>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="fname">Profile Image </label>
+                                    <input type="file" class="form-control" id="fname" name="profile_image"
+                                        placeholder="Enter Password" required accept="image/*">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                {% if editmanager.profile_image %}
+                                <img src="{{ editmanager.profile_image.url }}" width="60" height="60" style="border-radius:50%;">
+                                {% else %}
+                                <img src="/static/assets/images/default-user.png" width="60" height="60"
+                                    style="border-radius:50%;">
+                                {% endif %}
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="dppass">Address</label>
+                                    <textarea class="form-control" name="address"
+                                        placeholder="Address...">{{editmanager.address}}</textarea>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <br>
+                                <button type="submit" class="btn btn-gradient-primary me-2 mt-1">Submit</button>
+                            </div>
+                        </div>
+
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% include "footer.html" %}

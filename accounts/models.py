@@ -10,9 +10,15 @@ class User(AbstractUser):
         ('employee','Employee'),   
     )
     role = models.CharField(max_length=20,choices=ROLE_CHOICES)
+    department = models.ForeignKey('departments.Department',on_delete=models.SET_NULL,null=True,blank=True)
     mobile = models.CharField(max_length=15,blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     address = models.TextField(default="")
-    
+    profile_image = models.ImageField(
+        upload_to='profile/',
+        null=True,
+        blank=True
+    )
+    salary = models.PositiveIntegerField(default=0)
     def __str__(self):
         return self.username
