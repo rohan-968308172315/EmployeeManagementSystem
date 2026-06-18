@@ -108,7 +108,7 @@ def logout_view(request):
 
     logout(request)
 
-    return redirect('login')
+    return redirect('/login')
 
 
 @login_required(login_url='login')
@@ -238,6 +238,7 @@ def save_manager(request):
         address = request.POST.get("address")
         department_id = request.POST.get("department")
         role = request.POST.get("role")
+        date_joined = request.POST.get("date_joined")
         profile_image = request.FILES.get('profile_image')
 
         # duplicate username check
