@@ -3,8 +3,6 @@ from django.http import HttpResponse
 from departments import models
 
 # Create your views here.
-def dashboard(req):
-    return render(req,"admin/dashboard.html")
 
 def add_department(req):
     return render(req,"admin/add_department.html")
