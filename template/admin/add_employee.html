@@ -7,20 +7,19 @@
             <div class="row">
                 <div class="d-flex justify-content-sm-between mb-5">
                     <h3 class="page-title">
-                        Edit Manager
+                        Add Employee
                     </h3>
+                    <a href="/employee_list" class="btn btn-danger btn-sm">Employee List</a>
                 </div>
                 <div class="col-md-12">
-                    <form class="forms-sample" action="{% url 'update_manager' editmanager.id %}" method="post"
-                        enctype="multipart/form-data">
+                    <form class="forms-sample" action="{% url 'save_employee' %}" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div class="row">
                             <div class="col-md-4">
-                                <input type="hidden" name="id" value="{{editmanager.id}}" id="">
                                 <div class="form-group">
                                     <label for="fname">First Name</label>
                                     <input type="text" class="form-control" id="fname" name="first_name"
-                                        value="{{editmanager.first_name}}" placeholder="Enter First Name" required>
+                                        placeholder="Enter First Name" required>
                                 </div>
                             </div>
 
@@ -28,7 +27,7 @@
                                 <div class="form-group">
                                     <label for="fname">Last Name</label>
                                     <input type="text" class="form-control" id="fname" name="last_name"
-                                        value="{{editmanager.last_name}}" placeholder="Enter Last Name" required>
+                                        placeholder="Enter Last Name" required>
                                 </div>
                             </div>
 
@@ -36,7 +35,7 @@
                                 <div class="form-group">
                                     <label for="fname">UserName</label>
                                     <input type="text" class="form-control" id="fname" name="username"
-                                        value="{{editmanager.username}}" placeholder="Enter UserName" required>
+                                        placeholder="Enter UserName" required>
                                 </div>
                             </div>
 
@@ -44,14 +43,14 @@
                                 <div class="form-group">
                                     <label for="fname">Email </label>
                                     <input type="email" class="form-control" id="fname" name="email"
-                                        value="{{editmanager.email}}" placeholder="Enter Email" required>
+                                        placeholder="Enter Email" required>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="fname">Mobile Number </label>
-                                    <input type="text" class="form-control" name="mobile" value="{{editmanager.mobile}}"
-                                        maxlength="10" pattern="[0-9]{10}" placeholder="Enter Mobile Number" required>
+                                    <input type="text" class="form-control" name="mobile" maxlength="10"
+                                        pattern="[0-9]{10}" placeholder="Enter Mobile Number" required>
                                 </div>
                             </div>
 
@@ -60,20 +59,28 @@
                                 <div class="form-group">
                                     <label for="fname">Password </label>
                                     <input type="text" class="form-control" id="fname" name="password"
-                                        value="{{editmanager.original_password}}" placeholder="Enter Password" required>
+                                        placeholder="Enter Password" required>
                                 </div>
                             </div>
 
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="fname">Select Department </label>
-                                    <select name="department" class="form-control p-3 text-dark" required>
-                                        <option value="" >Choose Department</option>
+                                    <select name="department" id="departmentSelect" class="form-control p-3 text-dark" required>
+                                        <option value="" selected>Choose Department</option>
                                         {% for dep in department %}
-                                        <option value="{{dep.id}}" {% if editmanager.department_id == dep.id %} selected {% endif %}>{{dep.department_name}} </option>
+                                        <option value="{{dep.id}}">{{dep.department_name}} </option>
                                         {% endfor %}
                                     </select>
-                                    <input type="hidden" name="role" value="manager">
+                                    <input type="hidden" name="role" value="employee">
+                                    <input type="hidden" name="under_by" id="underByInput">
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Selected Manager</label>
+                                    <input type="text" id="selectedManagerName" class="form-control p-3 text-dark" value="Choose Department First" readonly>
                                 </div>
                             </div>
 
@@ -82,38 +89,29 @@
                                 <div class="form-group">
                                     <label for="fname">Salary </label>
                                     <input type="number" class="form-control" id="fname" name="salary"
-                                        placeholder="Enter salary" value="{{editmanager.salary}}" required>
+                                        placeholder="Enter salary" required>
                                 </div>
                             </div>
 
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="fname">Joining Date </label>
-                                    <input type="datetime-local" class="form-control" name="date_joined"
-                                        value="{{ editmanager.date_joined|date:'Y-m-d\\TH:i' }}" required>
+                                    <input type="datetime-local" class="form-control" id="fname" name="date_joined"
+                                        required>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="fname">Profile Image </label>
                                     <input type="file" class="form-control" id="fname" name="profile_image"
-                                        placeholder="Enter Password"  accept="image/*">
+                                        placeholder="Enter Password" required accept="image/*">
                                 </div>
                             </div>
-                            <div class="col-md-2">
-                                {% if editmanager.profile_image %}
-                                <img src="{{ editmanager.profile_image.url }}" width="60" height="60" style="border-radius:50%;">
-                                {% else %}
-                                <img src="/static/assets/images/default-user.png" width="60" height="60"
-                                    style="border-radius:50%;">
-                                {% endif %}
-                            </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 <div class="form-group">
                                     <label for="dppass">Address</label>
-                                    <textarea class="form-control" name="address"
-                                        placeholder="Address...">{{editmanager.address}}</textarea>
+                                    <textarea class="form-control" name="address" placeholder="Address..."></textarea>
                                 </div>
                             </div>
 
@@ -130,4 +128,37 @@
         </div>
     </div>
 </div>
+<script>
+    const departmentSelect = document.getElementById("departmentSelect");
+    const underByInput = document.getElementById("underByInput");
+    const selectedManagerName = document.getElementById("selectedManagerName");
+    const departmentUsersUrl = "{% url 'department_users' %}";
+
+    departmentSelect.addEventListener("change", async function () {
+        const departmentId = this.value;
+        underByInput.value = "";
+        selectedManagerName.value = "Loading...";
+
+        if (!departmentId) {
+            selectedManagerName.value = "Choose Department First";
+            return;
+        }
+
+        try {
+            const response = await fetch(`${departmentUsersUrl}?department_id=${departmentId}`);
+            const data = await response.json();
+
+            if (!data.users.length) {
+                selectedManagerName.value = "No Manager Found";
+                return;
+            }
+
+            const manager = data.users[0];
+            underByInput.value = manager.id;
+            selectedManagerName.value = manager.name;
+        } catch (error) {
+            selectedManagerName.value = "Unable to load manager";
+        }
+    });
+</script>
 {% include "footer.html" %}

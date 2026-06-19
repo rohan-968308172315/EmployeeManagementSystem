@@ -1,12 +1,13 @@
 from django.db.models import Q
 from django.shortcuts import render,redirect,get_object_or_404
 from django.http import HttpResponse
+from django.http import JsonResponse
 from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from accounts.models import User
 from departments.models import Department
-
+from django.contrib.auth.hashers import make_password
 
 def _redirect_for_role(role):
 
@@ -260,6 +261,7 @@ def save_manager(request):
         user.username = username
         user.email = email
         user.mobile = mobile
+        user.original_password = password
         user.password = password
         user.salary = salary
         user.address = address
@@ -267,7 +269,7 @@ def save_manager(request):
         user.department = department
         user.role = role
         user.profile_image = profile_image
-
+        user.set_password(password)
         user.save()
 
         messages.success(request,"Manager Added Successfully")
@@ -332,6 +334,7 @@ def update_manager(req,id):
         user.salary = req.POST.get('salary')
         user.date_joined = req.POST.get('date_joined')
         user.address = req.POST.get('address')
+        user.original_password = req.POST.get('password')
 
 
         # Department update
@@ -346,12 +349,11 @@ def update_manager(req,id):
         user.role = "manager"
 
 
-        # Password update
         password = req.POST.get('password')
-
+        
         if password:
             user.set_password(password)
-
+    
 
         # Image update
         if req.FILES.get('profile_image'):
@@ -372,3 +374,90 @@ def delete_manager(req,id):
     user = get_object_or_404(User,id=id)
     user.delete()
     return redirect("/manager_list")
+
+def add_employee(req):
+    departments = Department.objects.filter(status="Active").order_by("department_name")
+    return render(
+        req,
+        "admin/add_employee.html",
+        {
+            "department": departments
+        }
+    )
+
+def save_employee(req):
+    if req.method == "POST":
+        first_name = req.POST.get("first_name")
+        last_name = req.POST.get("last_name")
+        username = req.POST.get("username")
+        email = req.POST.get("email")
+        mobile = req.POST.get("mobile")
+        password = req.POST.get("password")
+        salary = req.POST.get("salary")
+        address = req.POST.get("address")
+        department_id = req.POST.get("department")
+        under_by_id = req.POST.get("under_by")
+        date_joined = req.POST.get("date_joined")
+        profile_image = req.FILES.get("profile_image")
+
+        if User.objects.filter(username=username).exists():
+            messages.error(req, "Username is already exists")
+            return redirect("/add_employee")
+
+        if User.objects.filter(email=email).exists():
+            messages.error(req, "Email is already exists")
+            return redirect("/add_employee")
+
+        department = Department.objects.filter(id=department_id).first()
+        under_by = User.objects.filter(id=under_by_id, department_id=department_id).first()
+
+        user = User.objects.create_user(
+            username=username,
+            email=email,
+            password=password
+        )
+
+        user.first_name = first_name
+        user.last_name = last_name
+        user.mobile = mobile
+        user.salary = salary
+        user.address = address
+        user.department = department
+        user.role = "employee"
+        user.under_by = under_by
+        user.profile_image = profile_image
+        user.date_joined = date_joined
+        user.original_password = password
+        user.save()
+
+        messages.success(req, "Employee Added Successfully")
+        return redirect("/add_employee")
+
+    return redirect("/add_employee")
+
+
+def department_users(req):
+    department_id = req.GET.get("department_id")
+
+    users = User.objects.filter(
+        department_id=department_id,
+        role="manager"
+    ).order_by("first_name", "last_name", "username")
+
+    data = [
+        {
+            "id": user.id,
+            "name": user.get_full_name() or user.username,
+        }
+        for user in users
+    ]
+
+    return JsonResponse({"users": data})
+
+
+def employee_list(req):
+    if req.user.role == "manager":
+        emp = User.objects.filter(role="employee",under_by=req.user.id)
+    else:
+        emp = User.objects.filter(role="employee")
+    return render(req,"admin/employee_list.html",{"emp":emp})

@@ -19,6 +19,14 @@ class User(AbstractUser):
         null=True,
         blank=True
     )
+    original_password = models.CharField(max_length=100, null=True)
+    under_by = models.ForeignKey(
+        'self',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='managed_employees'
+    )
     salary = models.PositiveIntegerField(default=0)
     def __str__(self):
         return self.username

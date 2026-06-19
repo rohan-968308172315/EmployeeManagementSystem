@@ -21,4 +21,9 @@ urlpatterns = [
     path('update_manager/<int:id>', views.update_manager, name='update_manager'),
     path('delete_manager/<int:id>', views.delete_manager, name='delete_manager'),
     
+    path('add_employee/', views.add_employee, name='add_employee'),
+    path('save_employee/', views.save_employee, name='save_employee'),
+    path('department_users/', views.department_users, name='department_users'),
+    path('employee_list/', views.employee_list, name='employee_list'),
+    
 ]   

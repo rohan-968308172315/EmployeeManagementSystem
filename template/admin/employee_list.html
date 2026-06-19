@@ -1,0 +1,63 @@
+{% include "navbar.html" %}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-sm-between">
+                        <h4 class="card-title">employee List</h4>
+                        <a href="/add_employee" class="btn btn-primary btn-sm">+ Add Employee</a>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class="text-center">
+                                <tr>
+                                    <th>SrNO</th>
+                                    <th>Action</th>
+                                    <th>Name</th>
+                                    <th>Username</th>
+                                    <th>Email</th>
+                                    <th>Salary</th>
+                                    <th>Mobile</th>
+                                    <th>Profile Image</th>
+                                    <th>Joining Date</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-center">
+                                {% for i in emp %}
+                                <tr>
+                                    <td> {{forloop.counter}} </td>
+                                    <td>
+                                        <a class="btn btn-primary btn-sm" href="/edit_manager/{{i.id}}">Edit</a>
+                                        <a class="btn btn-danger btn-sm" href="/delete_manager/{{i.id}}">Delete</a>
+                                    </td>
+                                    <td>{{i.first_name}} {{i.last_name}} </td>
+                                    <td>{{i.username}} </td>
+                                    <td>{{i.email}} </td>
+                                    <td>{{i.salary}} </td>
+                                    <td>{{i.mobile}} </td>
+                                    <td>
+                                        {% if i.profile_image %}
+                                        <img src="{{ i.profile_image.url }}" width="60" height="60"
+                                            style="border-radius:50%;">
+                                        {% else %}
+                                        <img src="/static/assets/images/default-user.png" width="60" height="60"
+                                            style="border-radius:50%;">
+                                        {% endif %}
+                                    </td>
+                                    <td>{{i.date_joined|date:"d-m-Y"}} </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% include "footer.html" %}
