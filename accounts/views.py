@@ -5,7 +5,7 @@ from django.http import JsonResponse
 from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from accounts.models import User
+from accounts.models import User,CompanyDetails
 from departments.models import Department
 from django.contrib.auth.hashers import make_password
 
@@ -461,3 +461,79 @@ def employee_list(req):
     else:
         emp = User.objects.filter(role="employee")
     return render(req,"admin/employee_list.html",{"emp":emp})
+
+
+@login_required
+def profile(req):
+    user = req.user
+    return render(req,"profile.html",{"user_data":user})
+
+@login_required
+def edit_profile(req):
+    user = req.user
+    return render(req,"edit_profile.html",{"user_data":user})
+
+
+def update_profile(req,id):
+    if req.method == "POST":
+    
+        user = get_object_or_404(
+            User,
+            id=id
+        )
+
+        user.first_name = req.POST.get('first_name')
+        user.last_name = req.POST.get('last_name')
+        user.username = req.POST.get('username')
+        user.email = req.POST.get('email')
+        user.mobile = req.POST.get('mobile')
+        user.address = req.POST.get('address')
+        user.original_password = req.POST.get('password')
+
+
+        password = req.POST.get('password')
+        
+        if password:
+            user.set_password(password)
+    
+
+        # Image update
+        if req.FILES.get('profile_image'):
+            user.profile_image = req.FILES.get(
+                'profile_image'
+            )
+
+
+        user.save()
+
+        return redirect('/profile')
+
+
+    return redirect('/profile')
+
+def company_details(req):
+    comp = CompanyDetails.objects.get(id=1)
+    return render(req,"admin/company_details.html",{"comp":comp})
+
+def update_company_details(req,id):
+    if req.method == "POST":
+        comp = get_object_or_404(CompanyDetails,id=id)
+
+        comp.company_name = req.POST.get('company_name')
+        comp.phone = req.POST.get('phone')
+        comp.website = req.POST.get('website')
+        comp.email = req.POST.get('email')
+        comp.established_on = req.POST.get('established_on')
+        comp.address = req.POST.get('address')
+        comp.gst_number = req.POST.get('gst_number')
+        comp.registration_number = req.POST.get('registration_number')
+        comp.city = req.POST.get('city')
+        comp.state = req.POST.get('state')
+        comp.pincode = req.POST.get('pincode')
+        comp.description = req.POST.get('description')
+
+        if req.FILES.get('logo'):
+            comp.logo = req.FILES.get('logo')
+        comp.save()
+    
+    return redirect("/company_details")

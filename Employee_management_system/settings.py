@@ -78,6 +78,7 @@ TEMPLATES = [
             'context_processors': [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
+                'accounts.context_processors.company_details',
                 'django.contrib.messages.context_processors.messages',
             ],
         },
@@ -90,27 +91,27 @@ WSGI_APPLICATION = 'Employee_management_system.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'employee_management_system',
-#         'USER': 'root',
-#         'PASSWORD':'',
-#         'HOST':'localhost',
-#         'PORT':'3306'
-#     }
-# }
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'employee_management_system',
-        'USER': 'django_user',
-        'PASSWORD':'StrongPassword123',
+        'USER': 'root',
+        'PASSWORD':'',
         'HOST':'localhost',
         'PORT':'3306'
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'employee_management_system',
+#         'USER': 'django_user',
+#         'PASSWORD':'StrongPassword123',
+#         'HOST':'localhost',
+#         'PORT':'3306'
+#     }
+# }
 
 AUTH_USER_MODEL = 'accounts.User'
 
