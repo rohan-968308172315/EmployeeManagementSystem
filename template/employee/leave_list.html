@@ -1,0 +1,58 @@
+{% include "navbar.html" %}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-sm-between">
+                        <h4 class="card-title">Leave List</h4>
+                        <a href="/apply_leave" class="btn btn-primary btn-sm">+ Add Leave</a>
+                    </div>
+                  <div class="table-responsive">
+                      <table class="table">
+                        <thead class="text-center">
+                            <tr>
+                                <th>SrNO</th>
+                                <th>Action</th>
+                                <th>Leave Type</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Reason</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-center">
+                            {% for i in myleave %}
+                            <tr>
+                                <td> {{forloop.counter}} </td>
+                                <td>
+                                    {% if i.status == 'Pending' %}
+                                    <a class="btn btn-primary btn-sm p-2" href="/edit_leave/{{i.id}}"> <i class="mdi mdi-pencil"></i></a>
+                                    <a class="btn btn-danger btn-sm p-2" href="/delete_leave/{{i.id}}"> <i class="mdi mdi-delete "></i> </a>
+                                    {% elif i.status == 'Approved' %}
+                                        <i class="mdi mdi-thumb-up btn btn-success p-2">Done</i>
+                                    {% else %}
+                                        <i class="mdi mdi-thumb-down btn btn-danger p-2 pe-2"> &nbsp; 🚫 </i>
+                                    {% endif %}
+                                    
+                                </td>
+                                <td>{{i.leave_type}} </td>
+                                <td>{{i.start_date}} </td>
+                                <td>{{i.end_date}} </td>
+                                <td>{{i.reason|slice:":22"}}... </td>
+                                <td>{{i.status}} </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                  </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% include "footer.html" %}

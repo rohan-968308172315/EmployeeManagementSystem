@@ -31,4 +31,11 @@ urlpatterns = [
     path('update_profile/<int:id>', views.update_profile, name='update_profile'),
     path('update_company_details/<int:id>', views.update_company_details, name='update_company_details'),
     
+    
+    path('employee_pending_leaves/', views.employee_pending_leaves, name='employee_pending_leaves'),
+    path('approve_employee_leave/<int:id>', views.approve_employee_leave, name='approve_employee_leave'),
+    path('reject_employee_leave/<int:id>', views.reject_employee_leave, name='reject_employee_leave'),
+    path('employee_approve_leaves/', views.employee_approve_leaves, name='employee_approve_leaves'),
+    path('employee_rejected_leaves/', views.employee_rejected_leaves, name='employee_rejected_leaves'),
+    
 ]   

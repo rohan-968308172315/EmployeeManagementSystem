@@ -1,0 +1,57 @@
+{% include "navbar.html" %}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-sm-between">
+                        <h4 class="card-title">Employee Approved Leave </h4>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class="text-center">
+                                <tr>
+                                    <th>SrNO</th>
+                                    <th>Name</th>
+                                    <th>Username</th>
+                                    {% if request.user.role == 'admin' %}
+                                    <th>Role </th>
+                                    {% endif %}
+                                    <th>Leave Type</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th>Apply Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-center">
+                                {% for i in leaves %}
+
+                                <tr>
+                                    <td>{{forloop.counter}} </td>
+
+                                    <td> {{i.user.first_name}} {{i.user.last_name}} </td>
+                                    <td> {{i.user.username}} </td>
+                                    {% if request.user.role == 'admin' %}
+                                    <td>{{i.user.role}} </td>
+                                    {% endif %}
+                                    <td> {{i.leave_type}} </td>
+                                    <td> {{i.start_date}} </td>
+                                    <td> {{i.end_date}} </td>
+                                    <td> {{i.created_at|date:"M d, Y"}} </td>
+                                    <td> {{i.status}} </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% include "footer.html" %}

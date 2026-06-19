@@ -7,7 +7,9 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from accounts.models import User,CompanyDetails
 from departments.models import Department
+from leave_management.models import Leave
 from django.contrib.auth.hashers import make_password
+
 
 def _redirect_for_role(role):
 
@@ -537,3 +539,39 @@ def update_company_details(req,id):
         comp.save()
     
     return redirect("/company_details")
+
+def employee_pending_leaves(req):
+    if req.user.role == "admin":
+        leaves = Leave.objects.select_related('user').filter(status='Pending')
+    else:
+        leaves = Leave.objects.select_related('user').filter(user__under_by_id=req.user.id).filter(status='Pending')
+    
+    return render(req,"employee/employee_pending_leaves.html",{"leaves": leaves})
+
+def approve_employee_leave(req,id):
+    leave = Leave.objects.get(id=id)
+    leave.status = "Approved"
+    leave.save()
+    return redirect("/employee_pending_leaves")
+
+def employee_approve_leaves(req):
+    
+    if req.user.role == "admin":
+        leaves = Leave.objects.select_related('user').filter(status='Approved')
+    else:
+        leaves = Leave.objects.select_related('user').filter(user__under_by_id=req.user.id).filter(status='Approved')
+    return render(req,"employee/employee_approve_leaves.html",{"leaves":leaves})
+
+def employee_rejected_leaves(req):
+    if req.user.role == "admin":
+            leaves = Leave.objects.select_related('user').filter(status='Rejected')
+    else:
+        leaves = Leave.objects.select_related('user').filter(user__under_by_id=req.user.id).filter(status='Rejected')
+    
+    return render(req,"employee/employee_rejected_leaves.html",{"leaves":leaves})
+
+def reject_employee_leave(req,id):
+    leave = Leave.objects.get(id=id)
+    leave.status = "Rejected"
+    leave.save()
+    return redirect("/employee_pending_leaves")
