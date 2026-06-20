@@ -28,6 +28,17 @@ class User(AbstractUser):
         related_name='managed_employees'
     )
     salary = models.PositiveIntegerField(default=0)
+    pf_percentage = models.DecimalField(
+    max_digits=5,
+    decimal_places=2,
+    default=12)
+
+    employee_code = models.CharField(
+    max_length=50,
+    unique=True,
+    null=True,
+    blank=True)
+    
     def __str__(self):
         return self.username
 

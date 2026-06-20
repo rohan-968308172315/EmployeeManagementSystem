@@ -87,7 +87,7 @@
                             </div>
                             <div class="nav-profile-text d-flex flex-column">
                                 {% if company_details %}
-                                <span class="font-weight-bold mb-2">{{ company_details.company_name }}</span>
+                                <span class="pe-2 mb-2">{{ company_details.company_name }}</span>
                                 <span class="text-secondary text-small">{{ company_details.city }}</span>
                                 {% else %}
                                 <span class="font-weight-bold mb-2">Company</span>
@@ -173,6 +173,32 @@
                     </li>
 
                     <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="collapse" href="#attendance" aria-expanded="false"
+                            aria-controls="attendance">
+                            <span class="menu-title">Attendance</span>
+                            <i class="menu-arrow"></i>
+                            <!-- <i class="mdi mdi-crosshairs-gps menu-icon"></i> -->
+                        </a>
+                        <div class="collapse" id="attendance">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/manager_attendance">Manager Attendance</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/employee_attendance">Employee Attendance</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/salary_list">
+                            <span class="menu-title">Salary Slips</span>
+                            <i class="mdi mdi-cash-multiple menu-icon"></i>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
                         <a class="nav-link" data-bs-toggle="collapse" href="#leaves" aria-expanded="false"
                             aria-controls="leaves">
                             <span class="menu-title">Leaves</span>
@@ -231,8 +257,17 @@
                             </ul>
                         </div>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/salary_list">
+                            <span class="menu-title">Salary Slips</span>
+                            <i class="mdi mdi-cash-multiple menu-icon"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/employee_attendance">Employee Attendance</a>
+                    </li>
 
-                    
+
                     <li class="nav-item">
                         <a class="nav-link" data-bs-toggle="collapse" href="#leave" aria-expanded="false"
                             aria-controls="leave">
@@ -242,6 +277,14 @@
                         </a>
                         <div class="collapse" id="leave">
                             <ul class="nav flex-column sub-menu">
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/salary_list">
+                            <span class="menu-title">Salary Slips</span>
+                            <i class="mdi mdi-cash-multiple menu-icon"></i>
+                        </a>
+                    </li>
+
                                 <li class="nav-item">
                                     <a class="nav-link" href="/apply_leave">Apply Leave</a>
                                 </li>
@@ -253,7 +296,7 @@
                             </ul>
                         </div>
                     </li>
-                    
+
                     {% elif request.user.role == "employee" %}
                     <li class="nav-item">
                         <a class="nav-link" href="/employee_dashboard">
@@ -281,6 +324,12 @@
 
                             </ul>
                         </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/salary_list">
+                            <span class="menu-title">Salary Slips</span>
+                            <i class="mdi mdi-cash-multiple menu-icon"></i>
+                        </a>
                     </li>
                     {% endif %}
                     {% endif %}

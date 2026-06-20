@@ -12,10 +12,19 @@
                     <a href="/leave_list" class="btn btn-danger btn-sm">Leave List</a>
                 </div>
                 <div class="col-md-12">
-                    <form class="forms-sample" action="{% url 'save_leave' %}" method="post" enctype="multipart/form-data">
+                    {% if messages %}
+                    {% for message in messages %}
+                    <div
+                        class="alert alert-{% if message.tags == 'error' %}danger{% else %}success{% endif %} auto-hide-alert">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                    <form class="forms-sample" action="{% url 'save_leave' %}" method="post"
+                        enctype="multipart/form-data">
                         {% csrf_token %}
                         <div class="row">
-                           
+
 
                             <div class="col-md-4">
                                 <div class="form-group">
@@ -23,20 +32,35 @@
                                     <input type="date" name="start_date" class="form-control" required>
                                 </div>
                             </div>
-                             <div class="col-md-4">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="dpcode">End Date <span class="text-danger">*</span></label>
                                     <input type="date" name="end_date" class="form-control" required>
                                 </div>
                             </div>
 
-                             <div class="col-md-4">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="dpnmae">Leave Type <span class="text-danger">*</span> </label>
                                     <select name="leave_type" required class="text-dark form-control p-3">
                                         <option value="" selected>Choose Leave Type</option>
+                                        <option value="Sick Leave">Sick Leave</option>
+                                        <option value="Casual Leave">Casual Leave</option>
+                                        <option value="Emergency Leave">Emergency Leave</option>
+                                        <option value="Medical Leave">Medical Leave</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="dpnmae">Leave Durations </label>
+                                    <select name="leave_duration" class="text-dark form-control p-3">
+                                        <option value="" selected>Choose Leave Durations</option>
                                         <option value="Full Day">Full Day</option>
-                                        <option value="Half Day">Half Day</option>
+                                        <option value="First Half">First Half</option>
+                                        <option value="Second Half">Second Half</option>
+
                                     </select>
                                 </div>
                             </div>
@@ -50,8 +74,7 @@
 
                                 <div class="form-group">
                                     <label for="dppass">Reason</label>
-                                    <textarea class="form-control" name="reason"
-                                        placeholder="Add Reason..."></textarea>
+                                    <textarea class="form-control" name="reason" placeholder="Add Reason..."></textarea>
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -65,4 +88,33 @@
         </div>
     </div>
 </div>
+<style>
+    .auto-hide-alert {
+        animation: fadeOut 1s ease forwards;
+        animation-delay: 3s;
+    }
+
+    @keyframes fadeOut {
+        from {
+            opacity: 1;
+        }
+
+        to {
+            opacity: 0;
+            visibility: hidden;
+        }
+    }
+</style>
+
+<script>
+    setTimeout(function () {
+
+        let alerts = document.querySelectorAll('.auto-hide-alert');
+
+        alerts.forEach(function (alert) {
+            alert.remove();
+        });
+
+    }, 3000);
+</script>
 {% include "footer.html" %}

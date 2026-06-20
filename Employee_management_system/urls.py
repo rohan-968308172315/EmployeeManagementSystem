@@ -23,6 +23,8 @@ urlpatterns = [
     path('',include('accounts.urls')),
     path('',include('departments.urls')),
     path('',include('leave_management.urls')),
+    path('',include('attendance.urls')),
+    path('',include('salary.urls')),
     
     path('admin/', admin.site.urls),
     

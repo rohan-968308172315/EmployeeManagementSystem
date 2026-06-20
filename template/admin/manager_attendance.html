@@ -1,0 +1,97 @@
+{% include "navbar.html" %}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-sm-between">
+                        <h4 class="card-title">Manager Attendance</h4>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class="text-center">
+                                <tr>
+                                    <th>SrNO</th>
+                                    <th>Action</th>
+                                    <th>Name</th>
+                                    <th>Username</th>
+                                    <th>Email</th>
+                                    <th>Salary</th>
+                                    <th>Mobile</th>
+                                    <th>Profile Image</th>
+                                    <th>Joining Date</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-center">
+                                {% for i in att %}
+                                <tr>
+                                    <td> {{forloop.counter}} </td>
+                                    <td>
+
+                                        {% if i.today_attendance %}
+
+                                        {% if i.today_attendance.status == "Present" %}
+                                        <span class="badge badge-success">
+                                            Present
+                                        </span>
+
+                                        {% elif i.today_attendance.status == "Absent" %}
+                                        <span class="badge badge-danger">
+                                            Absent
+                                        </span>
+
+                                        {% elif i.today_attendance.status == "Half Day" %}
+                                        <span class="badge badge-warning">
+                                            Half Day
+                                        </span>
+
+                                        {% endif %}
+
+                                        {% else %}
+
+                                        <a class="btn btn-primary btn-sm p-2" href="/manager_present/{{i.id}}">
+                                            Present
+                                        </a>
+
+                                        <a class="btn btn-danger btn-sm p-2" href="/manager_absent/{{i.id}}">
+                                            Absent
+                                        </a>
+
+                                        <a class="btn btn-warning text-dark btn-sm p-2"
+                                            href="/manager_halfday/{{i.id}}">
+                                            Half Day
+                                        </a>
+
+                                        {% endif %}
+
+                                    </td>
+                                    <td>{{i.first_name}} {{i.last_name}} </td>
+                                    <td>{{i.username}} </td>
+                                    <td>{{i.email}} </td>
+                                    <td>{{i.salary}} </td>
+                                    <td>{{i.mobile}} </td>
+                                    <td>
+                                        {% if i.profile_image %}
+                                        <img src="{{ i.profile_image.url }}" width="60" height="60"
+                                            style="border-radius:50%;">
+                                        {% else %}
+                                        <img src="/static/assets/images/default-user.png" width="60" height="60"
+                                            style="border-radius:50%;">
+                                        {% endif %}
+                                    </td>
+                                    <td>{{i.date_joined|date:"d-m-Y"}} </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% include "footer.html" %}
